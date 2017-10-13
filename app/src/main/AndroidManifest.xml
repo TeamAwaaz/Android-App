@@ -15,9 +15,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DetailedReaction"
             android:parentActivityName=".MainActivity"
@@ -29,14 +27,18 @@
         <activity
             android:name=".WeeklyReports"
             android:screenOrientation="portrait" />
-        <activity android:name=".PlayLastAudio"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".StartActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+        <activity
+            android:name=".PlayLastAudio"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".StartActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity android:name=".SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

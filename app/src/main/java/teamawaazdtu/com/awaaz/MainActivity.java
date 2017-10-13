@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ibm.watson.developer_cloud.http.HttpMediaType;
+import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
+import com.ibm.watson.developer_cloud.speech_to_text.v1.model.RecognizeOptions;
+import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -56,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     public TextView tvText;
     public TextView tvTitle1, tvTitle2 , tvEmotion, tvReaction, tvDetails;
-    public String spokenText, emotionText, reactionText;
+    public String spokenText = "Loading spoken text...", emotionText, reactionText;
     public ImageView ivEmotion, ivReaction;
     public Button btnSpeakAgain;
     public ImageButton btnSpeak, btnStop, btnListen;
@@ -70,11 +76,15 @@ public class MainActivity extends AppCompatActivity {
 
     //----------------------------------------------
     private static final String RECORDING_URL = "https://apiv3.beyondverbal.com/v3/recording/";
+//    public static final String USERNAME = "a3ee8a8d-e9fa-4c9c-a526-28351e087a45";
+//    public static final String PASSWORD = "Evu5bXRi7cqe";
+    public static final String USERNAME = "e26ee6cc-e916-4783-822c-129667a9cfb2";
+    public static final String PASSWORD = "V1zpPSnT5CEi";
 
     private static final String Auth_URL = "https://token.beyondverbal.com/token";
 
 
-    private static final String APIKey ="your_own_key_here";
+    private static final String APIKey ="67927a9d-e87c-41cc-8bc1-ec3d3af5acf7";
     private Header access_token;
     private String recordingid ;
     private Button btnAnalyze;
@@ -437,6 +447,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_send:
             case R.id.btn_analyze:
 
+                generateSpokenText();
                 hitServer(v);
 
                 break;
@@ -645,7 +656,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateAnalysisUI(String content) {
 
-        spokenText = getSpokenText();
+//        generateSpokenText();
         emotionText = getEmotionText(content);
         animateButtons();
         updateViews();
@@ -673,9 +684,68 @@ public class MainActivity extends AppCompatActivity {
         return emotionText;
     }
 
-    private String getSpokenText() {
-        String s = "Spoken Text";
-        return s;
+    private void generateSpokenText() {
+
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+
+                    SpeechToText service = new SpeechToText();
+                    service.setUsernameAndPassword(USERNAME, PASSWORD);
+
+                    File audio = file();
+
+                    RecognizeOptions options = new RecognizeOptions.Builder()
+                            .contentType(HttpMediaType.AUDIO_WAV).model("en-US_NarrowbandModel").interimResults(true)
+                            .build();
+
+                    SpeechResults transcript = service.recognize(audio, options).execute();
+                    Log.d("TAG123Transcript",transcript.toString());
+                    final String text = getSpeechTextFromJson(transcript);
+                    Log.d("TAG123Text",text);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateSpokenText(text);
+                        }
+                    });
+
+                }
+                catch (Exception e){
+                    Log.d("TAG123Text",e+"");
+                }
+            }
+        }).start();
+    }
+
+    public void updateSpokenText(final String text){
+        try {
+            tvText.setText(text);
+        } catch (Exception e) {
+            tvText.setText("---Some error occurred. Please try again.---");
+        }
+    }
+
+    private String getSpeechTextFromJson(SpeechResults transcript) {
+
+        try {
+            String fullText = "";
+            JSONObject transcriptObj = new JSONObject(transcript.toString());
+            JSONArray results = transcriptObj.getJSONArray("results");
+
+            for(int i=0;i<results.length();i++){
+                JSONArray alternatives = ((JSONObject)results.get(i)).getJSONArray("alternatives");
+                fullText += ((JSONObject)alternatives.get(0)).getString("transcript");
+            }
+
+            return fullText;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "Default";
     }
 
     private void animateButtons() {
