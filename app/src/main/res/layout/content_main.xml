@@ -169,10 +169,10 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="30dp"
         android:layout_below="@+id/tv_details"
         android:fillViewport="false"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:layout_height="70dp">
 
         <TextView
             android:id="@+id/tv_text"

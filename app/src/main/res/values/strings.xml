@@ -14,4 +14,9 @@
     <string name="static_record_title"><b>Static Recording and Analysis</b></string>
     <string name="name"><b>Kartik Bhutani</b></string>
     <string name="email_id"><b>kartik.alive07@gmail.com</b></string>
+
+    <string name="sign_in_facebook">Sign in with Facebook</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="logout_text">Sign out</string>
+    <string name="facebook_app_id">221623114699507</string>
 </resources>

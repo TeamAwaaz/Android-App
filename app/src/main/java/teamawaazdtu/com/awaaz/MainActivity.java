@@ -2,8 +2,10 @@ package teamawaazdtu.com.awaaz;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.MediaPlayer;
@@ -12,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -47,6 +50,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -72,19 +76,19 @@ public class MainActivity extends AppCompatActivity {
     public static final String SPOKEN_TEXT = "spoken_text_code";
     public static final String EMOTION_TEXT = "emotion_text_code";
     public static final String REACTION_TEXT = "reaction_text_code";
-    public static final String RECORDED_FILE_NAME = "audio1.wav";
+    public static final String RECORDED_FILE_NAME = "_rec.wav";
 
     //----------------------------------------------
     private static final String RECORDING_URL = "https://apiv3.beyondverbal.com/v3/recording/";
-//    public static final String USERNAME = "a3ee8a8d-e9fa-4c9c-a526-28351e087a45";
+//    public static final String USERNAME = "a3ee8a8d-e9fa-4c9c-a526-28351e087a45";  //extra
 //    public static final String PASSWORD = "Evu5bXRi7cqe";
-    public static final String USERNAME = "e26ee6cc-e916-4783-822c-129667a9cfb2";
-    public static final String PASSWORD = "V1zpPSnT5CEi";
+    public static final String USERNAME = "add_your_own";
+    public static final String PASSWORD = "add_your_own";
 
     private static final String Auth_URL = "https://token.beyondverbal.com/token";
 
 
-    private static final String APIKey ="67927a9d-e87c-41cc-8bc1-ec3d3af5acf7";
+    private static final String APIKey ="add_your_own";
     private Header access_token;
     private String recordingid ;
     private Button btnAnalyze;
@@ -100,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
     Recorder recorder;
     int i=0;
     int mic = 0;
+
+    SharedPreferences preferences;
+    public static final String CREATED_TIME = "created_time";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +165,12 @@ public class MainActivity extends AppCompatActivity {
 
         //-----------------------------------------------
         //OM Recorder -
-        setupRecorder();
+//        setupRecorder();
+
+        //to store recent file name
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String createdTime = preferences.getString(CREATED_TIME,"invalid");
+        Log.d("LastAudioOnCreate", createdTime);
     }
 
 //    @Override
@@ -172,53 +184,7 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
-//    @SuppressWarnings("StatementWithEmptyBody")
-//    @Override
-//    public boolean onNavigationItemSelected(MenuItem item) {
-//        // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//
-//        if (id == R.id.nav_reports) {
-//            Intent intent = new Intent(this,WeeklyReports.class);
-//            startActivity(intent);
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//        return true;
-//    }
 
     public void initializeSpeechRecog(){
         PackageManager pm = getPackageManager();
@@ -255,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                                 animateVoice((float) (audioChunk.maxAmplitude() / 200.0));
                                 changeColor(1);
                             }
-                        }), file());
+                        }), recordedFile());
             }
         }.run();
 
@@ -334,22 +300,56 @@ public class MainActivity extends AppCompatActivity {
         }.run();
     }
 
-//    public void convertToRequiredFormat(){
-//
-//        var output = ConvertWavTo8000Hz16BitMonoWav(input);
-//        File.WriteAllBytes("C:/output.wav", output);
-//    }
 
     @NonNull
-    private File file() {
+    private String recentFile() {
+
+        String createdTimeWithSpaces = preferences.getString(CREATED_TIME,"invalid"); //check to give toast.
+        String createdTime = "";
+        int count = 0;
+        for(int i=0;i<createdTimeWithSpaces.length();i++){
+            if(count==14){
+                break;
+            }
+            char curr = createdTimeWithSpaces.charAt(i);
+            if(curr!=' '&&curr!=':'&&curr!='+'){
+                createdTime+=curr;
+                count++;
+            }
+        }
         String fileLocation = String.valueOf(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
-        String filePath = fileLocation+"/"+RECORDED_FILE_NAME;
+        String filePath = fileLocation+"/"+createdTime+RECORDED_FILE_NAME;
+//        String filePath = fileLocation+"/"+"audio1.wav";
+        return filePath;
+    }
+
+    @NonNull
+    private File recordedFile() {
+        Date createdTimeWithSpaces = new Date();
+        String createdTime = "";
+        int count = 0;
+        for(int i=0;i<(createdTimeWithSpaces.toString()).length();i++){
+            if(count==14){
+                break;
+            }
+            char curr = createdTimeWithSpaces.toString().charAt(i);
+            if(curr!=' '&&curr!=':'&&curr!='+'){
+                createdTime+=curr;
+                count++;
+            }
+        }
+        String fileLocation = String.valueOf(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
+        String filePath = fileLocation+"/" + createdTime + RECORDED_FILE_NAME;
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(CREATED_TIME,createdTime.toString());
+        editor.commit();
+//        preferences.edit().putString(CREATED_TIME,createdTime.toString());
+        String createdTimeString = preferences.getString(CREATED_TIME,"invalid");
+        Log.d("LastAudioWhenRecorded", createdTimeString);
         return new File(filePath);
     }
 
-    public void startVoiceRecording(){
-
-    }
 
     //-----------------------------------------------------
     public void startVoiceRecordActivity(){
@@ -395,6 +395,10 @@ public class MainActivity extends AppCompatActivity {
     private void playLastAudio(){
 
         Intent intent = new Intent(this,PlayLastAudio.class);
+        String createdTime = preferences.getString(CREATED_TIME,"invalid");
+        Log.d("LastAudioHear", recentFile());
+
+        intent.putExtra(CREATED_TIME,recentFile());
         startActivity(intent);
     }
 
@@ -455,13 +459,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void hitServer(final View v) {
-        String fileLocation = String.valueOf(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
-        String filePath = fileLocation + "/" + RECORDED_FILE_NAME;
+
+//        String createdTime = preferences.getString(CREATED_TIME,"invalid");
+//        if(createdTime.equals("invalid")){
+//            Toast.makeText(this, "No audio recorded yet.", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        String fileLocation = String.valueOf(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
+//        String filePath = fileLocation + "/" + createdTime + RECORDED_FILE_NAME;
         MediaPlayer mediaPlayer = new MediaPlayer();
         try {
 
             final double[] duration = new double[1];
-            mediaPlayer.setDataSource(filePath);
+//            Log.d("LastAudioAnalysis",filePath);
+            mediaPlayer.setDataSource(recentFile());
             mediaPlayer.prepare();
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -480,6 +491,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         } catch (IOException e) {
+            Toast.makeText(this, "No audio file recorded yet", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }catch (Exception e){
             e.printStackTrace();
@@ -695,10 +707,10 @@ public class MainActivity extends AppCompatActivity {
                     SpeechToText service = new SpeechToText();
                     service.setUsernameAndPassword(USERNAME, PASSWORD);
 
-                    File audio = file();
+                    File audio = new File(recentFile());
 
                     RecognizeOptions options = new RecognizeOptions.Builder()
-                            .contentType(HttpMediaType.AUDIO_WAV).model("en-US_NarrowbandModel").interimResults(true)
+                            .contentType(HttpMediaType.AUDIO_WAV).model("en-US_NarrowbandModel")
                             .build();
 
                     SpeechResults transcript = service.recognize(audio, options).execute();
@@ -973,10 +985,11 @@ public class MainActivity extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
         InputStream raw = null;
-        String fileLocation = String.valueOf(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
-        String filePath = fileLocation+"/"+RECORDED_FILE_NAME;
+//        String createdTime = preferences.getString(CREATED_TIME,"invalid");
+//        String fileLocation = String.valueOf(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
+//        String filePath = fileLocation+"/"+ createdTime + RECORDED_FILE_NAME;
         try {
-            raw = new FileInputStream(filePath);
+            raw = new FileInputStream(recentFile());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

@@ -1,5 +1,6 @@
 package teamawaazdtu.com.awaaz;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.andremion.music.MusicCoverView;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
@@ -29,6 +31,7 @@ public class PlayLastAudio extends AppCompatActivity {
     int flag = 0;
     float currProgress = 0;
     double audioDuration = 0;
+    String filePath;
 //    CircularProgressBar circularProgressBar;
 
     @Override
@@ -40,12 +43,13 @@ public class PlayLastAudio extends AppCompatActivity {
         relativeLayout.getBackground().setAlpha(50);
 
         flag = 0;
-        String fileLocation = String.valueOf(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
-        String filePath = fileLocation + "/" + RECORDED_FILE_NAME;
         RelativeLayout mPlayerContainer = (RelativeLayout) findViewById(R.id.activity_play_last_audio);
 
         mCoverView = (MusicCoverView) findViewById(R.id.cover);
         btnPlay = (Button) findViewById(R.id.btn_play);
+
+        Intent intent = getIntent();
+        filePath = intent.getStringExtra(MainActivity.CREATED_TIME);
 
         mCoverView.setCallbacks(new MusicCoverView.Callbacks() {
             @Override
@@ -69,9 +73,16 @@ public class PlayLastAudio extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                playSound();
-                playUI();
-                updateButton();
+                Log.d("LastAudioPlayLast", filePath);
+//                if(filePath.endsWith("7_rec.wav")) {
+//                    Log.d("LastAudioPlayLast1", filePath);
+                    playSound(filePath);
+                    playUI();
+                    updateButton();
+//                }
+//                else{
+//                    Toast.makeText(PlayLastAudio.this, "No audio recorded yet.", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 
@@ -88,6 +99,7 @@ public class PlayLastAudio extends AppCompatActivity {
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.start();
                 audioDuration = mediaPlayer.getDuration()/1000.0;
             }
         });
@@ -147,17 +159,16 @@ public class PlayLastAudio extends AppCompatActivity {
         }
     }
 
-    private void playSound(){
+    private void playSound(String filePath){
 
         if(flag==0){
-            String fileLocation = String.valueOf(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
-            String filePath = fileLocation + "/" + RECORDED_FILE_NAME;
             try {
                 mediaPlayer.setDataSource(filePath);
 //                int pos = mediaPlayer.getCurrentPosition();
-                mediaPlayer.prepare();
-                mediaPlayer.start();
+                mediaPlayer.prepareAsync();
+//                mediaPlayer.start();
             } catch (IOException e) {
+                Log.d("ErrorAudio",e+"");
                 e.printStackTrace();
             } catch (Exception e){
                 Log.d("TAG123","Error: "+e);
