@@ -19,7 +19,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 
 public class WeeklyReports extends AppCompatActivity implements OnChartValueSelectedListener {
-
+                int naman;
     ArrayList<String> xVals;
 
     @Override
