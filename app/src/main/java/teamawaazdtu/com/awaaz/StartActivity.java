@@ -64,7 +64,7 @@ public class StartActivity extends AppCompatActivity implements NavigationView.O
                 break;
 
             case R.id.btn_listen_audio:
-                intent = new Intent(this,PlayLastAudio.class);
+                intent = new Intent(this,ListenAudios.class);
                 startActivity(intent);
                 break;
 

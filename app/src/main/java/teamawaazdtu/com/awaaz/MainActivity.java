@@ -394,7 +394,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void playLastAudio(){
 
-        Intent intent = new Intent(this,PlayLastAudio.class);
+        Intent intent = new Intent(this,ListenAudios.class);
         String createdTime = preferences.getString(CREATED_TIME,"invalid");
         Log.d("LastAudioHear", recentFile());
 
@@ -414,14 +414,18 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     if(recorder!=null) {
                         recorder.stopRecording();
+                        Toast.makeText(this, "Audio Saved. Ready to Analyze", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(this, "Already Stopped", Toast.LENGTH_SHORT).show();
                     }
 //                    changeColor(0);
-                    Toast.makeText(this, "Audio Saved. Ready to Analyze", Toast.LENGTH_SHORT).show();
 //                    Log.d("TAG123","RecordingStopped: ");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 catch (Exception e){
+                    e.printStackTrace();
                     Toast.makeText(this, "Already Stopped", Toast.LENGTH_SHORT).show();
 //                    Log.d("TAG123","Exception Type 2 : "+ e);
                 }
