@@ -84,14 +84,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String RECORDING_URL = "https://apiv3.beyondverbal.com/v3/recording/";
 //    public static final String USERNAME = "a3ee8a8d-e9fa-4c9c-a526-28351e087a45";  //extra
 //    public static final String PASSWORD = "Evu5bXRi7cqe";
-    public static final String USERNAME = "e26ee6cc-e916-4783-822c-129667a9cfb2";
-    public static final String PASSWORD = "V1zpPSnT5CEi"; //add_your_own
+    public static final String USERNAME = "add_your_own";
+    public static final String PASSWORD = "add_your_own"; //add_your_own
 
     private static final String Auth_URL = "https://token.beyondverbal.com/token";
     public static final int INVISIBLE = 0;
     public static final int VISIBLE = 1;
 
-    private static final String APIKey ="67927a9d-e87c-41cc-8bc1-ec3d3af5acf7";
+    private static final String APIKey ="add_your_own";
     private Header access_token;
     private String recordingid ;
     private Button btnAnalyze;
