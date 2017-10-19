@@ -1,9 +1,11 @@
 package teamawaazdtu.com.awaaz;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +44,7 @@ public class ListenAudios extends AppCompatActivity {
     boolean fileSelected = false;
     ImageButton btnPause, btnPlay;
     View previousView = null;
+    public static final String AUDIO_FILE = "audio_file";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,15 +109,18 @@ public class ListenAudios extends AppCompatActivity {
                 currentPlaying = i;
                 flag = 0;
 
-                if (fs.getfetchstatus() != true) {
-                    Log.d("TAGFetchStatus : ", "here");
-                    mySongs = fs.findSongs(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
-                } else {
-                    mySongs = fs.getsonglist();
-                }
+
+//                if (fs.getfetchstatus() != true) {
+//                    Log.d("TAGFetchStatus : ", "here");
+//                    mySongs = fs.findSongs(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
+//                } else {
+//                    mySongs = fs.getsonglist();
+//                }
+
+
 //                Intent intent = getIntent();
 //                    position = intent.getIntExtra("pos", 0);
-                audioPosition = i;
+//                audioPosition = i;
                 audioPosition = mySongs.size()-i-1;
 //                Log.d("TAG123pos", String.valueOf(audioPosition));
                 filePath = mySongs.get(audioPosition).toString();
@@ -123,6 +129,39 @@ public class ListenAudios extends AppCompatActivity {
             }
         });
 
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+//                mediaPlayer.setDataSource();
+
+                if(previousView!=null) {
+                    previousView.setBackgroundColor(Color.argb(0, 50, 0, 50));
+                }
+
+                previousView = view;
+                view.setBackgroundColor(Color.argb(40,50,0,50));
+
+
+//                if (!fs.getfetchstatus()) {
+//                    Log.d("TAGFetchStatus : ", "here");
+//                    mySongs = fs.findSongs(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
+//                } else {
+//                    mySongs = fs.getsonglist();
+//                }
+
+
+//                Intent intent = getIntent();
+//                    position = intent.getIntExtra("pos", 0);
+//                audioPosition = i;
+                audioPosition = mySongs.size()-i-1;
+//                Log.d("TAG123pos", String.valueOf(audioPosition));
+                filePath = mySongs.get(audioPosition).toString();
+
+                audioDurationLimitPass(filePath);
+                return true;
+            }
+        });
         //play-pause button listener ----
         btnPause.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,8 +205,47 @@ public class ListenAudios extends AppCompatActivity {
         });
     }
 
+    private void audioDurationLimitPass(final String filePath) {
+
+        try {
+
+            final boolean[] limitPass = {false};
+            final double[] duration = new double[1];
+
+            MediaPlayer durationChecker = new MediaPlayer();
+            durationChecker.setDataSource(filePath);
+            durationChecker.prepare();
+            durationChecker.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer durationChecker) {
+                    duration[0] = durationChecker.getDuration()/1000.0;
+//                    Log.d("TAG123",duration[0]+"");
+                    if(duration[0] >10) {
+                        limitPass[0] = true;
+                        sendIntent(filePath);
+                    }
+                    else{
+                        Toast.makeText(ListenAudios.this, "Audio file should be of more than 10 seconds.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendIntent(String filePath){
+        if(mediaPlayer.isPlaying()){
+            mediaPlayer.stop();
+        }
+        stopCover();
+        Intent intent = new Intent(ListenAudios.this, MainActivity.class);
+        intent.putExtra(AUDIO_FILE, filePath);
+        startActivity(intent);
+    }
+
     private void displayAudios() {
-        while(fs.getfetchstatus()!=true){
+        while(!fs.getfetchstatus()){
             mySongs=fs.findSongs(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
 //            Log.d("File root : ", String.valueOf(getExternalFilesDir(Environment.DIRECTORY_MUSIC)));
         }

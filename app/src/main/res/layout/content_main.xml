@@ -126,7 +126,8 @@
         android:id="@+id/btn_send"
         android:onClick="onClick"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:alpha="0" />
 
 
     <!---->
@@ -150,7 +151,6 @@
             android:id="@+id/tv_response_content"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </ScrollView>
 
@@ -178,10 +178,11 @@
             android:id="@+id/tv_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textAlignment="center"
-            android:alpha="0" />
+            android:alpha="0"
+            android:paddingBottom="10dp"
+            android:text="Loading spoken text..." />
     </ScrollView>
 
     <!--android:layout_above="@+id/send_file_button"-->

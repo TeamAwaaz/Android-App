@@ -11,7 +11,8 @@
     <string name="action_settings">Settings</string>
     <string name="website_link"><u>Website Link</u></string>
     <string name="app_name_title"><b>Welcome</b></string>
-    <string name="static_record_title"><b>Static Recording and Analysis</b></string>
+    <string name="static_record_title"><b>Analyze after recording</b></string>
+    <string name="realtime_record_title"><b>Analyze while recording</b></string>
     <string name="name"><b>Kartik Bhutani</b></string>
     <string name="email_id"><b>kartik.alive07@gmail.com</b></string>
 

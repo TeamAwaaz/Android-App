@@ -1,6 +1,8 @@
 package teamawaazdtu.com.awaaz;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -19,6 +21,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class StartActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final String AUDIO_FILE = "audio_file";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,7 @@ public class StartActivity extends AppCompatActivity implements NavigationView.O
         switch (v.getId()){
             case R.id.btn_speak_static:
                 intent = new Intent(this,MainActivity.class);
+                intent.putExtra(AUDIO_FILE,"null");
                 startActivity(intent);
                 break;
 
@@ -73,7 +78,17 @@ public class StartActivity extends AppCompatActivity implements NavigationView.O
                 break;
 
             case R.id.tv_website_link:
-                Toast.makeText(this, "Opens Website in Web Brwoser", Toast.LENGTH_SHORT).show();
+                String urlString="http://www.google.com";  //change
+                intent=new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setPackage("com.android.chrome");
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException ex) {
+                    // Chrome browser presumably not installed so allow user to choose instead
+                    intent.setPackage(null);
+                    startActivity(intent);
+                }
                 break;
         }
     }

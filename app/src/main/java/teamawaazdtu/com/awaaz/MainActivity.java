@@ -62,6 +62,8 @@ import omrecorder.PullTransport;
 import omrecorder.PullableSource;
 import omrecorder.Recorder;
 
+import static java.lang.Thread.sleep;
+
 public class MainActivity extends AppCompatActivity {
 
     public TextView tvText;
@@ -77,18 +79,19 @@ public class MainActivity extends AppCompatActivity {
     public static final String EMOTION_TEXT = "emotion_text_code";
     public static final String REACTION_TEXT = "reaction_text_code";
     public static final String RECORDED_FILE_NAME = "_rec.wav";
-
+    public static final String AUDIO_FILE = "audio_file";
     //----------------------------------------------
     private static final String RECORDING_URL = "https://apiv3.beyondverbal.com/v3/recording/";
 //    public static final String USERNAME = "a3ee8a8d-e9fa-4c9c-a526-28351e087a45";  //extra
 //    public static final String PASSWORD = "Evu5bXRi7cqe";
-    public static final String USERNAME = "add_your_own";
-    public static final String PASSWORD = "add_your_own";
+    public static final String USERNAME = "e26ee6cc-e916-4783-822c-129667a9cfb2";
+    public static final String PASSWORD = "V1zpPSnT5CEi"; //add_your_own
 
     private static final String Auth_URL = "https://token.beyondverbal.com/token";
+    public static final int INVISIBLE = 0;
+    public static final int VISIBLE = 1;
 
-
-    private static final String APIKey ="add_your_own";
+    private static final String APIKey ="67927a9d-e87c-41cc-8bc1-ec3d3af5acf7";
     private Header access_token;
     private String recordingid ;
     private Button btnAnalyze;
@@ -107,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
     SharedPreferences preferences;
     public static final String CREATED_TIME = "created_time";
+    String analyzeIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +175,11 @@ public class MainActivity extends AppCompatActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String createdTime = preferences.getString(CREATED_TIME,"invalid");
         Log.d("LastAudioOnCreate", createdTime);
+
+        analyzeIntent = getIntent().getExtras().getString(AUDIO_FILE);
+        if(!analyzeIntent.equals("null")){
+            btnSend.performClick();
+        }
     }
 
 //    @Override
@@ -414,6 +423,8 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     if(recorder!=null) {
                         recorder.stopRecording();
+                        btnSend.setClickable(true);
+                        updateAnalyseButton(VISIBLE);
                         Toast.makeText(this, "Audio Saved. Ready to Analyze", Toast.LENGTH_SHORT).show();
                     }
                     else{
@@ -443,12 +454,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_speak_again:
 //                startVoiceRecognitionActivity();
 //                startVoiceRecordActivity();
-                Log.d("TAG123","RecordingStarted1: ");
+//                Log.d("TAG123","RecordingStarted1: ");
                 setupRecorder();
                 recorder.startRecording();
+                btnSend.setClickable(false);
 //                changeColor(1);
                 Toast.makeText(this, "Recording...", Toast.LENGTH_SHORT).show();
-                Log.d("TAG123","RecordingStarted2: ");
+//                Log.d("TAG123","RecordingStarted2: ");
 //                skipSilence.setEnabled(false);
                 break;
 
@@ -458,6 +470,18 @@ public class MainActivity extends AppCompatActivity {
                 generateSpokenText();
                 hitServer(v);
 
+                break;
+        }
+    }
+
+    private void updateAnalyseButton(int option) {
+        switch (option){
+            case 0 :
+                btnSend.animate().alpha(0).setDuration(500);
+                break;
+            case 1:
+                btnSend.setText("Analyze");
+                btnSend.animate().alpha(1).setDuration(500);
                 break;
         }
     }
@@ -476,7 +500,12 @@ public class MainActivity extends AppCompatActivity {
 
             final double[] duration = new double[1];
 //            Log.d("LastAudioAnalysis",filePath);
-            mediaPlayer.setDataSource(recentFile());
+            if(analyzeIntent.equals("null")) {
+                mediaPlayer.setDataSource(recentFile());
+            }
+            else{
+                mediaPlayer.setDataSource(analyzeIntent);
+            }
             mediaPlayer.prepare();
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -484,6 +513,7 @@ public class MainActivity extends AppCompatActivity {
                     duration[0] = mediaPlayer.getDuration()/1000.0;
 //                    Log.d("TAG123",duration[0]+"");
                     if(duration[0] >10) {
+                        btnSend.setText("Re-analyze");
                         new ServerConnection().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, v.getId());
                     }
                     else{
@@ -536,7 +566,7 @@ public class MainActivity extends AppCompatActivity {
                 //set new images and text.
 
                 try {
-                    tvText.setText(spokenText);
+//                    tvText.setText(spokenText);
                     tvEmotion.setText(emotionText);
                     tvReaction.setText(reactionText);
                     ivEmotion.setImageResource(emotionId);
@@ -711,7 +741,13 @@ public class MainActivity extends AppCompatActivity {
                     SpeechToText service = new SpeechToText();
                     service.setUsernameAndPassword(USERNAME, PASSWORD);
 
-                    File audio = new File(recentFile());
+                    File audio;
+                    if(analyzeIntent.equals("null")) {
+                        audio = new File(recentFile());
+                    }
+                    else{
+                        audio = new File(analyzeIntent);
+                    }
 
                     RecognizeOptions options = new RecognizeOptions.Builder()
                             .contentType(HttpMediaType.AUDIO_WAV).model("en-US_NarrowbandModel")
@@ -725,6 +761,7 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Log.d("UIThreadText", text);
                             updateSpokenText(text);
                         }
                     });
@@ -732,6 +769,12 @@ public class MainActivity extends AppCompatActivity {
                 }
                 catch (Exception e){
                     Log.d("TAG123Text",e+"");
+                }
+
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }).start();
@@ -761,7 +804,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return "Default";
+        return "Error loading.";
     }
 
     private void animateButtons() {
@@ -993,7 +1036,13 @@ public class MainActivity extends AppCompatActivity {
 //        String fileLocation = String.valueOf(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
 //        String filePath = fileLocation+"/"+ createdTime + RECORDED_FILE_NAME;
         try {
-            raw = new FileInputStream(recentFile());
+            if(analyzeIntent.equals("null")) {
+                raw = new FileInputStream(recentFile());
+            }
+            else{
+                raw = new FileInputStream(analyzeIntent);
+            }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
