@@ -69,7 +69,7 @@ public class RealtimeActivity extends AppCompatActivity {
     public static final String RECORDED_FILE_NAME = "_rec.wav";
     private static final String RECORDING_URL = "https://apiv3.beyondverbal.com/v3/recording/";
     private static final String Auth_URL = "https://token.beyondverbal.com/token";
-    private static final String APIKey ="67927a9d-e87c-41cc-8bc1-ec3d3af5acf7";
+    private static final String APIKey ="add_your_own";
     private Header access_token;
     private ResponseHolder responseHolder;
     private String recordingid ;
