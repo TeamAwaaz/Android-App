@@ -61,6 +61,7 @@ import omrecorder.OmRecorder;
 import omrecorder.PullTransport;
 import omrecorder.PullableSource;
 import omrecorder.Recorder;
+import omrecorder.WriteAction;
 
 import static java.lang.Thread.sleep;
 
@@ -84,14 +85,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String RECORDING_URL = "https://apiv3.beyondverbal.com/v3/recording/";
 //    public static final String USERNAME = "a3ee8a8d-e9fa-4c9c-a526-28351e087a45";  //extra
 //    public static final String PASSWORD = "Evu5bXRi7cqe";
-    public static final String USERNAME = "add_your_own";
-    public static final String PASSWORD = "add_your_own"; //add_your_own
+    public static final String USERNAME = "e26ee6cc-e916-4783-822c-129667a9cfb2";
+    public static final String PASSWORD = "V1zpPSnT5CEi"; //add_your_own
 
     private static final String Auth_URL = "https://token.beyondverbal.com/token";
     public static final int INVISIBLE = 0;
     public static final int VISIBLE = 1;
 
-    private static final String APIKey ="add_your_own";
+    private static final String APIKey ="67927a9d-e87c-41cc-8bc1-ec3d3af5acf7";
     private Header access_token;
     private String recordingid ;
     private Button btnAnalyze;
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
     Recorder recorder;
     int i=0;
     int mic = 0;
+    int recording = 0;
 
     SharedPreferences preferences;
     public static final String CREATED_TIME = "created_time";
@@ -120,27 +122,6 @@ public class MainActivity extends AppCompatActivity {
         i=0;
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.content_main);
         relativeLayout.getBackground().setAlpha(30);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-//
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-
 
         tvText = (TextView) findViewById(R.id.tv_text);
         btnSpeak = (ImageButton) findViewById(R.id.btn_speak);
@@ -182,18 +163,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
-
-
+    @Override
+    public void onBackPressed() {
+        if(recording==1) {
+            btnStop.performClick();
+        }
+        super.onBackPressed();
+    }
 
     public void initializeSpeechRecog(){
         PackageManager pm = getPackageManager();
@@ -225,12 +201,19 @@ public class MainActivity extends AppCompatActivity {
                     recorder = null;
                 }
                 recorder = OmRecorder.wav(
-                        new PullTransport.Default(mic(), new PullTransport.OnAudioChunkPulledListener() {
+                        new PullTransport.Noise(mic(), new PullTransport.OnAudioChunkPulledListener() {
                             @Override public void onAudioChunkPulled(AudioChunk audioChunk) {
                                 animateVoice((float) (audioChunk.maxAmplitude() / 200.0));
                                 changeColor(1);
                             }
-                        }), recordedFile());
+                        },new WriteAction.Default(),
+                                new Recorder.OnSilenceListener() {
+                                    @Override public void onSilence(long silenceTime) {
+//                                        Log.e("silenceTime", String.valueOf(silenceTime));
+//                                        Toast.makeText(MainActivity.this, "silence of " + silenceTime + " detected",
+//                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }, 200), recordedFile());
             }
         }.run();
 
@@ -423,22 +406,33 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     if(recorder!=null) {
                         recorder.stopRecording();
-                        btnSend.setClickable(true);
-                        updateAnalyseButton(VISIBLE);
-                        Toast.makeText(this, "Audio Saved. Ready to Analyze", Toast.LENGTH_SHORT).show();
+                        btnSpeak.setClickable(true);
+                        recording = 0;
+                        final String currentPath = recentFile();
+                        MediaPlayer mediaPlayer = new MediaPlayer();
+                        final double[] duration = new double[1];
+                        mediaPlayer.setDataSource(currentPath);
+                        mediaPlayer.prepare();
+                        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                            @Override
+                            public void onPrepared(MediaPlayer mediaPlayer) {
+                                duration[0] = mediaPlayer.getDuration()/1000.0;
+                                if(duration[0] >10) {
+                                    btnSend.setClickable(true);
+                                    updateAnalyseButton(VISIBLE);
+                                    Toast.makeText(MainActivity.this, "Audio Saved. Ready to Analyze", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    Toast.makeText(MainActivity.this, "Audio file should be of more than 10 seconds. File deleted.", Toast.LENGTH_SHORT).show();
+                                    File file = new File(currentPath);
+                                    file.delete();
+                                }
+                            }
+                        });
                     }
-                    else{
-                        Toast.makeText(this, "Already Stopped", Toast.LENGTH_SHORT).show();
-                    }
-//                    changeColor(0);
-//                    Log.d("TAG123","RecordingStopped: ");
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
                 catch (Exception e){
                     e.printStackTrace();
-                    Toast.makeText(this, "Already Stopped", Toast.LENGTH_SHORT).show();
-//                    Log.d("TAG123","Exception Type 2 : "+ e);
                 }
 
                 btnSpeak.post(new Runnable() {
@@ -458,17 +452,16 @@ public class MainActivity extends AppCompatActivity {
                 setupRecorder();
                 recorder.startRecording();
                 btnSend.setClickable(false);
-//                changeColor(1);
+                btnSpeak.setClickable(false);
+                recording = 1;
                 Toast.makeText(this, "Recording...", Toast.LENGTH_SHORT).show();
 //                Log.d("TAG123","RecordingStarted2: ");
 //                skipSilence.setEnabled(false);
                 break;
 
             case R.id.btn_send:
-            case R.id.btn_analyze:
-
                 generateSpokenText();
-                hitServer(v);
+                hitServer();
 
                 break;
         }
@@ -486,15 +479,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void hitServer(final View v) {
+    private void hitServer() {
 
-//        String createdTime = preferences.getString(CREATED_TIME,"invalid");
-//        if(createdTime.equals("invalid")){
-//            Toast.makeText(this, "No audio recorded yet.", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        String fileLocation = String.valueOf(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
-//        String filePath = fileLocation + "/" + createdTime + RECORDED_FILE_NAME;
         MediaPlayer mediaPlayer = new MediaPlayer();
         try {
 
@@ -514,15 +500,13 @@ public class MainActivity extends AppCompatActivity {
 //                    Log.d("TAG123",duration[0]+"");
                     if(duration[0] >10) {
                         btnSend.setText("Re-analyze");
-                        new ServerConnection().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, v.getId());
+                        new ServerConnection().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     }
                     else{
                         Toast.makeText(MainActivity.this, "Audio file should be of more than 10 seconds.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-
-
 
         } catch (IOException e) {
             Toast.makeText(this, "No audio file recorded yet", Toast.LENGTH_SHORT).show();
@@ -628,77 +612,61 @@ public class MainActivity extends AppCompatActivity {
 
     //---------------------------------------------------------
 
-    private ResponseHolder postByAction(int buttonId)
+    private ResponseHolder postByAction()
     {
         //System.setProperty("http.proxyHost", "127.0.0.1");
         //System.setProperty("http.proxyPort", "8888");
 
         HttpActivity httpa = new HttpActivity();
 
-        switch (buttonId)
-        {
-            case R.id.btn_analyze:   // add btn
-                getToken();
-                responseHolder = httpa.doPost(RECORDING_URL + "start", access_token, getEntityForUpstream());
+        getToken();
+        HttpEntity entity = getEntityForUpstream();
+        responseHolder = httpa.doPost(RECORDING_URL + "start", access_token, entity);
 
-                if (responseHolder.content != null){
-                    recordingid = getRecordingid(responseHolder.content);
-                    GoStream();
-
-                }
-                break;
-            case R.id.btn_send:  //add btn
-                getToken();
-                HttpEntity entity = getEntityForUpstream();
-                responseHolder = httpa.doPost(RECORDING_URL + "start", access_token, entity);
-
-                if (responseHolder.content != null){
-                    recordingid = getRecordingid(responseHolder.content);
-                    responseHolder = httpa.doPost(RECORDING_URL + recordingid, access_token, getEntityForSendFile());
-                }
-
-
+        if (responseHolder.content != null){
+            recordingid = getRecordingid(responseHolder.content);
+            responseHolder = httpa.doPost(RECORDING_URL + recordingid, access_token, getEntityForSendFile());
         }
         return responseHolder;
     }
 
-    public void GoStream() {
-
-
-        tvWait.post(new Runnable() {
-            public void run() {
-                tvWait.setText("Wait");   //change
-            }
-        });
-
-        Thread stream =new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                HttpActivity httpac = new HttpActivity();
-                final ResponseHolder hol = httpac.doPost(RECORDING_URL + recordingid, access_token, getEntityForSendFile());
-
-
-                tvResponseContent.post(new Runnable() {
-                    public void run() {
-                        CharSequence text = tvResponseContent.getText();
-                        tvResponseContent.setText("Full analysis::::"+hol.content+text);   //change
-
-                        updateAnalysisUI(hol.content);
-                        Log.d("TAG123","Full analysis::::"+hol.content);
-//                        Log.d("TAG123",text+"");
-                    }
-                });
-
-            }
-        });
-
-        stream.start();
-        //****
-        // When post is sended file anylize file parts (Asyncronic send requests for analysis with FromMs milisecond from start file )
-        // **/
-        Analyze();
-    }
+//    public void GoStream() {
+//
+//        Log.d("never here: ", "never here");
+//        tvWait.post(new Runnable() {
+//            public void run() {
+//                tvWait.setText("Wait");   //change
+//            }
+//        });
+//
+//        Thread stream =new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                HttpActivity httpac = new HttpActivity();
+//                final ResponseHolder hol = httpac.doPost(RECORDING_URL + recordingid, access_token, getEntityForSendFile());
+//
+//
+//                tvResponseContent.post(new Runnable() {
+//                    public void run() {
+//                        CharSequence text = tvResponseContent.getText();
+//                        tvResponseContent.setText("Full analysis::::"+hol.content+text);   //change
+//
+//                        updateAnalysisUI(hol.content);
+//                        Log.d("TAG123","Full analysis::::"+hol.content);
+////                        Log.d("TAG123",text+"");
+//                    }
+//                });
+//
+//            }
+//        });
+//
+//        stream.start();
+//        //****
+//        // When post is sended file anylize file parts (Asyncronic send requests for analysis with FromMs milisecond from start file )
+//        // **/
+//        Analyze();
+//    }
 
     private void updateAnalysisUI(String content) {
 
@@ -817,6 +785,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Analyze(){
 
+        Log.d("never here: ", "never here");
         final Timer myTimer = new Timer();
         long delay = 0;
         long period=5000;
@@ -953,10 +922,15 @@ public class MainActivity extends AppCompatActivity {
      * UI thread
      *
      */
-    private class ServerConnection extends AsyncTask<Integer, Void, ResponseHolder>
+    private class ServerConnection extends AsyncTask<Void, Void, ResponseHolder>
     {
 
         //ProgressDialog progressDialog;
+
+        @Override
+        protected ResponseHolder doInBackground(Void... voids) {
+            return postByAction();
+        }
 
         @Override
         protected void onPreExecute()
@@ -965,14 +939,6 @@ public class MainActivity extends AppCompatActivity {
             progressDialog.setMessage("please wait...");
             progressDialog.show();
             super.onPreExecute();
-        }
-
-        @Override
-        protected ResponseHolder doInBackground(Integer... params)
-        {
-            int buttonId = params[0];
-            responseHolder.actionId = buttonId;
-            return postByAction(buttonId);
         }
 
         @Override
@@ -998,24 +964,6 @@ public class MainActivity extends AppCompatActivity {
 //	 * Disable send_file_button until receiving upstream url from server
 //	 * @param actionId the button id
 //	 */
-//	private void setButtonByAction(int actionId)
-//	{
-//		boolean statusButton = false;
-//		switch (actionId)
-//		{
-//		case R.id.get_upstream_button:
-//			statusButton = true;
-//			break;
-//
-//		case R.id.send_file_button:
-//			statusButton = false;
-//			break;
-//
-//		default:
-//			break;
-//		}
-//		sendFileButton.setEnabled(statusButton);
-//	}
 
     /**
      * @return the WAV file from local resource
@@ -1032,9 +980,7 @@ public class MainActivity extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
         InputStream raw = null;
-//        String createdTime = preferences.getString(CREATED_TIME,"invalid");
-//        String fileLocation = String.valueOf(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
-//        String filePath = fileLocation+"/"+ createdTime + RECORDED_FILE_NAME;
+
         try {
             if(analyzeIntent.equals("null")) {
                 raw = new FileInputStream(recentFile());

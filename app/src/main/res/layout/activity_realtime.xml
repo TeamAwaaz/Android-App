@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_realtime"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="teamawaazdtu.com.awaaz.RealtimeActivity"
+    android:background="@drawable/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/tv_realtime_title"
+        android:background="@drawable/a2"
+        android:layout_above="@+id/btn_speak_realtime"
+        android:layout_marginBottom="30dp"
+        android:id="@+id/layout_realtime_display">
+
+        <TextView
+            android:text="@string/realtime_we_hear_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_we_hear"
+            android:textColor="@android:color/white"
+            android:textSize="34sp"
+            android:textAlignment="center"
+            android:layout_marginTop="50dp" />
+
+        <TextView
+            android:text="@string/realtime_first_analysis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_first_analysis"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/case1emotion"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/iv_emotion"
+            android:background="@android:color/transparent"
+            android:adjustViewBounds="true"
+            android:scaleType="center"
+            android:layout_gravity="center_horizontal"
+            android:alpha="0" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_emotion"
+            android:textColor="@android:color/white"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:text="Start Recording"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_recording_title"
+            android:textColor="@android:color/white"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:layout_marginTop="25dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_time"
+            android:layout_gravity="right|end"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/white"
+            android:text="0"
+            android:alpha="0" />
+
+    </LinearLayout>
+
+    <TextView
+        android:text="@string/realtime_record_title"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:id="@+id/tv_realtime_title"
+        android:backgroundTint="@android:color/holo_blue_bright"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="24sp"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:text="STOP"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:id="@+id/btn_stop"
+        android:onClick="onClick"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_stop"
+        android:alpha="1"
+        android:layout_alignTop="@+id/btn_speak_realtime"
+        android:layout_alignStart="@+id/tv_realtime_title"
+        android:layout_marginTop="8dp" />
+
+    <ImageButton
+        android:id="@+id/btn_speak_realtime"
+        android:onClick="onClick"
+        android:alpha="1"
+        android:src="@drawable/ic_mic2"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/tv_realtime_title"
+        android:layout_marginBottom="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="83dp"
+        android:layout_marginBottom="14dp"
+        android:id="@+id/tv_status_content"
+        android:visibility="gone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="83dp"
+        android:layout_marginBottom="14dp"
+        android:id="@+id/tv_response_content"
+        android:visibility="gone" />
+
+</RelativeLayout>

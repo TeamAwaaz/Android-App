@@ -50,7 +50,10 @@
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ListenAudios"></activity>
+        <activity android:name=".ListenAudios" />
+        <activity android:name=".RealtimeActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".CalendarActivity"></activity>
     </application>
 
 </manifest>

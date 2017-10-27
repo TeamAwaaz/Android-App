@@ -13,22 +13,30 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class StartActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String AUDIO_FILE = "audio_file";
+    private Button logOut;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("inStartActivity: ", "inStartAct ");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -57,6 +65,34 @@ public class StartActivity extends AppCompatActivity implements NavigationView.O
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.activity_start);
         relativeLayout.getBackground().setAlpha(40);
 
+        //-------------------------login -------------------------------
+        logOut=(Button) findViewById(R.id.btn_logout);
+
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+            }
+        });
+
+
+        mAuth=FirebaseAuth.getInstance( );
+        mAuthListener=new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser()==null){
+                    startActivity(new Intent(StartActivity.this,LoginActivity.class));
+                }
+            }
+        };
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
     }
 
     public void onClick(View v){
@@ -73,8 +109,9 @@ public class StartActivity extends AppCompatActivity implements NavigationView.O
                 startActivity(intent);
                 break;
 
-            case R.id.btn_speak_dynamic:
-                Toast.makeText(this, "To be implemented", Toast.LENGTH_SHORT).show();
+            case R.id.btn_speak_realtime:
+                intent = new Intent(this,RealtimeActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.tv_website_link:

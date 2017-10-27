@@ -31,7 +31,7 @@
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/btn_listen_audio"
         android:layout_marginStart="20dp"
-        android:id="@+id/btn_speak_dynamic"
+        android:id="@+id/btn_speak_realtime"
         android:background="@android:color/transparent"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
@@ -108,4 +108,13 @@
         android:textSize="18sp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true" />
+
+    <Button
+        android:text="Logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/btn_speak_static"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/btn_logout" />
 </RelativeLayout>

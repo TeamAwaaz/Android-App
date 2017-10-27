@@ -13,6 +13,8 @@
     <string name="app_name_title"><b>Welcome</b></string>
     <string name="static_record_title"><b>Analyze after recording</b></string>
     <string name="realtime_record_title"><b>Analyze while recording</b></string>
+    <string name="realtime_we_hear_title"><b>We hear you\nKeep talking.</b></string>
+    <string name="realtime_first_analysis">First analysis will take 20-30 seconds</string>
     <string name="name"><b>Kartik Bhutani</b></string>
     <string name="email_id"><b>kartik.alive07@gmail.com</b></string>
 
@@ -20,4 +22,5 @@
     <string name="sign_in_google">Sign in with Google</string>
     <string name="logout_text">Sign out</string>
     <string name="facebook_app_id">109031543130790</string>
+    <!--<string name="default_web_client_id">464236828290-7o7njndn85gt67gmokmj01pqaebv0l1s.apps.googleusercontent.com</string>-->
 </resources>

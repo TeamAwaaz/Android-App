@@ -23,6 +23,8 @@ android {
 
 dependencies {
     compile 'codelight.studios:android-smart-login:1.2'
+    compile 'com.google.firebase:firebase-auth:11.4.2'
+    compile 'com.google.android.gms:play-services-auth:11.4.2'
     compile 'net.the4thdimension:audio-wife:1.0.3'
     compile 'com.ibm.watson.developer_cloud:speech-to-text:4.0.0'
     compile 'com.ibm.watson.developer_cloud:java-sdk:3.9.1'
@@ -40,3 +42,4 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
 }
+apply plugin: 'com.google.gms.google-services'
