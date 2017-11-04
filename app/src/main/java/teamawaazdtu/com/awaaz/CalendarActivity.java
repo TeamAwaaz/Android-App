@@ -12,6 +12,7 @@ public class CalendarActivity extends AppCompatActivity {
     private CalendarView mCalendarView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        int a;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 

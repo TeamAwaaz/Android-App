@@ -9,6 +9,13 @@
     <string name="status_text">Status :</string>
     <string name="response_text">Response :</string>
     <string name="action_settings">Settings</string>
+    <string name="drawer_item_option1">Option 1</string>
+    <string name="drawer_item_settings">Settings</string>
+    <string name="drawer_item_help">Help</string>
+    <string name="drawer_item_contact">Contact</string>
+    <string name="drawer_item_home">Home</string>
+    <string name="drawer_item_option2">Option 2</string>
+    <string name="drawer_item_option3">Option 3</string>
     <string name="website_link"><u>Website Link</u></string>
     <string name="app_name_title"><b>Welcome</b></string>
     <string name="static_record_title"><b>Analyze after recording</b></string>
@@ -22,5 +29,8 @@
     <string name="sign_in_google">Sign in with Google</string>
     <string name="logout_text">Sign out</string>
     <string name="facebook_app_id">109031543130790</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--<string name="default_web_client_id">464236828290-7o7njndn85gt67gmokmj01pqaebv0l1s.apps.googleusercontent.com</string>-->
 </resources>

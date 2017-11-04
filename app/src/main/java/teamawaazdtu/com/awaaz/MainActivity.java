@@ -2,7 +2,6 @@ package teamawaazdtu.com.awaaz;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,11 +16,10 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
-import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -83,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String AUDIO_FILE = "audio_file";
     //----------------------------------------------
     private static final String RECORDING_URL = "https://apiv3.beyondverbal.com/v3/recording/";
-//    public static final String USERNAME = "a3ee8a8d-e9fa-4c9c-a526-28351e087a45";  //extra
+    //    public static final String USERNAME = "a3ee8a8d-e9fa-4c9c-a526-28351e087a45";  //extra
 //    public static final String PASSWORD = "Evu5bXRi7cqe";
     public static final String USERNAME = "add_your_own";
     public static final String PASSWORD = "add_your_own"; //add_your_own
@@ -221,12 +219,12 @@ public class MainActivity extends AppCompatActivity {
 
     private PullableSource mic() {
         return new PullableSource.NoiseSuppressor(
-                    new PullableSource.Default(
+                new PullableSource.Default(
                         new AudioRecordConfig.Default(
-                            MediaRecorder.AudioSource.MIC, AudioFormat.ENCODING_PCM_16BIT,
-                            AudioFormat.CHANNEL_IN_MONO, 8000
+                                MediaRecorder.AudioSource.MIC, AudioFormat.ENCODING_PCM_16BIT,
+                                AudioFormat.CHANNEL_IN_MONO, 8000
                         )
-                    )
+                )
         );
     }
 

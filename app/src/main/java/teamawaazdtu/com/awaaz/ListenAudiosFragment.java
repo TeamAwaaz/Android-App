@@ -8,8 +8,10 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -23,8 +25,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ListenAudios extends AppCompatActivity {
 
+public class ListenAudiosFragment extends Fragment {
     int audioPosition;
     MusicCoverView mCoverView;
     MediaPlayer mediaPlayer = null;
@@ -41,24 +43,34 @@ public class ListenAudios extends AppCompatActivity {
     public static final int PAUSE = 0;
     boolean fileSelected = false;
     ImageButton btnPause, btnPlay;
+    View rootView ;
     View previousView = null;
     public static final String AUDIO_FILE = "audio_file";
+    public static ListenAudiosFragment newInstance(int instance) {
+        Bundle args = new Bundle();
+        args.putInt("argsInstance", instance);
+        ListenAudiosFragment thirdFragment = new ListenAudiosFragment();
+        thirdFragment.setArguments(args);
+        return thirdFragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listen_audios);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+         rootView = inflater.inflate(R.layout.activity_listen_audios, container, false);
         currentPlaying = -1;
 
         bindViews();
         setDialogBox();
         displayAudios();
         setListeners();
-    }
+        return rootView;    }
+
+
 
     private void setDialogBox() {
-        dialog = new ProgressDialog(this);
+        dialog = new ProgressDialog(getContext());
         dialog.setMessage("Please wait, Fetching Audio Files...");
         dialog.setCancelable(true);
         dialog.show();
@@ -87,7 +99,7 @@ public class ListenAudios extends AppCompatActivity {
         });
 
         //list view items listener ----
-        ArrayAdapter<String> adp= new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,items);
+        ArrayAdapter<String> adp= new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,items);
         lv.setAdapter(adp);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -181,7 +193,7 @@ public class ListenAudios extends AppCompatActivity {
                     previousView.setBackgroundColor(Color.argb(40, 50, 0, 50));
                 }
                 else{
-                    Toast.makeText(ListenAudios.this, "Select audio to play", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Select audio to play", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -223,7 +235,7 @@ public class ListenAudios extends AppCompatActivity {
                         sendIntent(filePath);
                     }
                     else{
-                        Toast.makeText(ListenAudios.this, "Audio file should be of more than 10 seconds.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Audio file should be of more than 10 seconds.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -237,14 +249,14 @@ public class ListenAudios extends AppCompatActivity {
             mediaPlayer.stop();
         }
         stopCover();
-        Intent intent = new Intent(ListenAudios.this, MainActivity.class);
+        Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.putExtra(AUDIO_FILE, filePath);
         startActivity(intent);
     }
 
     private void displayAudios() {
         while(!fs.getfetchstatus()){
-            mySongs=fs.findSongs(getExternalFilesDir(Environment.DIRECTORY_MUSIC));
+            mySongs=fs.findSongs(getActivity().getExternalFilesDir(Environment.DIRECTORY_MUSIC));
 //            Log.d("File root : ", String.valueOf(getExternalFilesDir(Environment.DIRECTORY_MUSIC)));
         }
         if(mySongs!=null){
@@ -284,12 +296,12 @@ public class ListenAudios extends AppCompatActivity {
     }
 
     private void bindViews() {
-        lv = (ListView)findViewById(R.id.listView);
-        btnPause = (ImageButton) findViewById(R.id.btn_pause);
-        btnPlay = (ImageButton) findViewById(R.id.btn_play);
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.activity_play_last_audio);
+        lv = (ListView)rootView.findViewById(R.id.listView);
+        btnPause = (ImageButton) rootView.findViewById(R.id.btn_pause);
+        btnPlay = (ImageButton) rootView.findViewById(R.id.btn_play);
+        LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.activity_play_last_audio);
         linearLayout.getBackground().setAlpha(110);
-        mCoverView = (MusicCoverView) findViewById(R.id.cover);
+        mCoverView = (MusicCoverView) rootView.findViewById(R.id.cover);
         fs = new FetchSongs();
         mediaPlayer = new MediaPlayer();
 
@@ -349,12 +361,11 @@ public class ListenAudios extends AppCompatActivity {
         }
     }
 
-    @Override
     public void onBackPressed() {
         if(mediaPlayer!=null&&mediaPlayer.isPlaying()){
             mediaPlayer.stop();
         }
-        super.onBackPressed();
+        return ;
     }
 
     private void stopCover(){
@@ -370,3 +381,5 @@ public class ListenAudios extends AppCompatActivity {
     }
 
 }
+
+
