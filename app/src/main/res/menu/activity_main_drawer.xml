@@ -6,18 +6,39 @@
             android:id="@+id/nav_reports"
             android:icon="@drawable/ic_description"
             android:title="Weekly Reports" />
+
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_analyze"
+            android:icon="@drawable/ic_nav_static"
+            android:title="Static Analyze" />
+
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_realtime"
+            android:icon="@drawable/ic_nav_realtime"
+            android:title="Realtime Analyze" />
+
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_recordings"
+            android:icon="@drawable/ic_nav_recordings"
+            android:title="Recordings" />
+        <item
+            android:id="@+id/nav_dashboard"
+            android:icon="@drawable/ic_nav_dashboard"
+            android:title="Dashboard" />
+
+        <item
+            android:id="@+id/nav_account"
+            android:icon="@drawable/ic_nav_account"
+            android:title="My Account" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_nav_settings"
+            android:title="Settings" />
+
+        <item
+            android:id="@+id/nav_aboutus"
+            android:icon="@drawable/ic_nav_aboutus"
+            android:title="About Us" />
     </group>
 
     <item android:title="Communicate">

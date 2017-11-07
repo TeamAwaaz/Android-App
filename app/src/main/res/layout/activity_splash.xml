@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context="teamawaazdtu.com.awaaz.SplashActivity"
-    android:background="@drawable/background">
+    tools:context=".SplashActivity"
+    android:background="@drawable/bg_kassvi2">
 
     <!--<ImageView-->
         <!--android:layout_width="match_parent"-->

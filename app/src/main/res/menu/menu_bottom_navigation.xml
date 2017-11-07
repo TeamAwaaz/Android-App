@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_call"
+        android:id="@+id/action_test"
         android:checked="true"
         android:icon="@drawable/ic_arrow_upward"
         android:title="Test"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_chat"
+        android:id="@+id/action_recordings"
         android:checked="false"
         android:icon="@drawable/ic_arrow_forward"
         android:title="Listen"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_contact"
+        android:id="@+id/action_dashboard"
         android:checked="false"
         android:icon="@drawable/ic_menu_share"
         android:title="Dashboard"

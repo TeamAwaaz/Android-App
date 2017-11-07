@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_get_started_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/app_bar_main"
+    android:background="@drawable/background">
+
+    <TextView
+        android:text="Welcome User"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:id="@+id/tv_welcome"
+        android:textSize="24sp"
+        android:textColor="@android:color/holo_blue_dark" />
+
+    <ImageView
+        android:layout_width="300dp"
+        android:id="@+id/iv_showcase"
+        android:layout_below="@+id/tv_welcome"
+        android:layout_marginTop="20dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/showcase0"
+        android:adjustViewBounds="true" />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:text="Get Started"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_showcase"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:id="@+id/btn_get_started"
+        />
+
+</RelativeLayout>

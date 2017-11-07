@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    xmlns:design="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:background="@drawable/background"
+    android:layout_height="540dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_test_fragment">
+
+    <ImageButton
+        design:srcCompat="@drawable/ic_mic2"
+        android:id="@+id/btn_static"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:focusable="false"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp" />
+
+    <ImageButton
+        design:srcCompat="@drawable/ic_mic_real1"
+        android:id="@+id/btn_realtime"
+        android:background="@android:color/transparent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:focusable="false"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="50dp"
+        android:layout_alignBaseline="@+id/btn_static"
+        android:layout_marginEnd="50dp"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="130dp"
+        android:textColor="@android:color/holo_orange_dark"
+        android:text="Static Analysis"
+        android:layout_height="wrap_content"
+        tools:ignore="HardcodedText,RtlHardcoded"
+        android:textSize="18sp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/btn_static"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="140dp"
+        android:textColor="@android:color/holo_orange_dark"
+        android:text="Real Time Analysis"
+        android:layout_height="wrap_content"
+        tools:ignore="HardcodedText,RtlHardcoded"
+        android:textSize="18sp"
+        android:layout_marginEnd="19dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/btn_realtime"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:text="Let's Ascend Together"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView8"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:textSize="30sp"
+        android:textColor="@android:color/holo_blue_dark" />
+
+</RelativeLayout>

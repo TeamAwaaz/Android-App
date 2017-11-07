@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="teamawaazdtu.com.awaaz">
+    package="com.teamkassvi.ascend">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon_ascend"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -18,42 +19,42 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.teamkassvi.ascend.StaticActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DetailedReaction"
-            android:parentActivityName=".MainActivity"
+            android:name="com.teamkassvi.ascend.DetailedReaction"
+            android:parentActivityName="com.teamkassvi.ascend.StaticActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="com.teamkassvi.ascend.StaticActivity" />
         </activity>
         <activity
-            android:name=".WeeklyReports"
+            android:name="com.teamkassvi.ascend.WeeklyReports"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PlayLastAudio"
+            android:name="com.teamkassvi.ascend.PlayLastAudio"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".StartActivity"
+            android:name="com.teamkassvi.ascend.StartActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".LoginActivity"
+            android:name="com.teamkassvi.ascend.LoginActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ListenAudios" />
-        <activity android:name=".RealtimeActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".CalendarActivity" />
-        <activity android:name=".GetStartedActivity" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
-        <activity android:name=".LayoutActivity"></activity>
+        <activity android:name="com.teamkassvi.ascend.ListenAudios" />
+        <activity android:name="com.teamkassvi.ascend.RealtimeActivity" />
+        <activity android:name="com.teamkassvi.ascend.SignUpActivity" />
+        <activity android:name="com.teamkassvi.ascend.CalendarActivity" />
+        <activity android:name="com.teamkassvi.ascend.GetStartedActivity" />
+        <activity android:name="com.teamkassvi.ascend.ViewpagerActivity"></activity>
 
-        <activity android:name=".SplashActivity"></activity>
+        <activity android:name="com.teamkassvi.ascend.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

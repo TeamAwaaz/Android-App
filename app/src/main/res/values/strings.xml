@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Awaaz</string>
+    <string name="app_name">Ascend</string>
     <string name="details_link">Problem Understanding? <u>Click here</u></string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -8,7 +8,7 @@
     <string name="text_ready">Ready</string>
     <string name="status_text">Status :</string>
     <string name="response_text">Response :</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_logout">Logout</string>
     <string name="drawer_item_option1">Option 1</string>
     <string name="drawer_item_settings">Settings</string>
     <string name="drawer_item_help">Help</string>
@@ -18,13 +18,14 @@
     <string name="drawer_item_option3">Option 3</string>
     <string name="website_link"><u>Website Link</u></string>
     <string name="app_name_title"><b>Welcome</b></string>
-    <string name="static_record_title"><b>Analyze after recording</b></string>
+    <string name="static_record_title">Record to Analyze</string>
     <string name="realtime_record_title"><b>Analyze while recording</b></string>
     <string name="realtime_we_hear_title"><b>We hear you\nKeep talking.</b></string>
     <string name="realtime_first_analysis">First analysis will take 20-30 seconds</string>
     <string name="name"><b>Kartik Bhutani</b></string>
     <string name="email_id"><b>kartik.alive07@gmail.com</b></string>
 
+    <string name="server_client_id">595978785726-iobakn4rsj8bflfd2a8ugrqdeu1evlih.apps.googleusercontent.com</string>
     <string name="sign_in_facebook">Sign in with Facebook</string>
     <string name="sign_in_google">Sign in with Google</string>
     <string name="logout_text">Sign out</string>

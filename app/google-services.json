@@ -1,35 +1,33 @@
 {
   "project_info": {
-    "project_number": "464236828290",
-    "firebase_url": "https://fir-demo-87123.firebaseio.com",
-    "project_id": "fir-demo-87123",
-    "storage_bucket": "fir-demo-87123.appspot.com"
+    "project_number": "595978785726",
+    "project_id": "firebase-ascend"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:464236828290:android:90e827fa636e371c",
+        "mobilesdk_app_id": "1:595978785726:android:dd1d56963ea9a4fd",
         "android_client_info": {
-          "package_name": "io.app.hasura.imad.namanyadav123.firebase"
+          "package_name": "com.teamkassvi.ascend"
         }
       },
       "oauth_client": [
         {
-          "client_id": "464236828290-7o7njndn85gt67gmokmj01pqaebv0l1s.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.app.hasura.imad.namanyadav123.firebase",
-            "certificate_hash": "ed57864e8edafae425939f4c027f93f2c386b104"
-          }
+          "client_id": "595978785726-ioa8i04vvohq25nres8ls2th7qsuso6o.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
-          "client_id": "464236828290-ckpl10p12egtv7ms5r856tahp6ob63gv.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "595978785726-iobakn4rsj8bflfd2a8ugrqdeu1evlih.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.teamkassvi.ascend",
+            "certificate_hash": "be68b4858b5b6db2d50ece2fc748a1d6f2f55ea4"
+          }
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC0x1G-GTvu7aU6JwbDWevVcHduK2Fvv-Y"
+          "current_key": "AIzaSyCbIRjKS_K79gWQ8R2aXVXqKeBpTS9y-_0"
         }
       ],
       "services": {
@@ -37,60 +35,11 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "464236828290-ckpl10p12egtv7ms5r856tahp6ob63gv.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:464236828290:android:cba8e75994cff91e",
-        "android_client_info": {
-          "package_name": "teamawaazdtu.com.awaaz"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "464236828290-7ve5de80lpd2sam8tg10pd4dugcssps1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "teamawaazdtu.com.awaaz",
-            "certificate_hash": "50f78415a681f63c32691ddc5df2fd4d3d5d2319"
-          }
-        },
-        {
-          "client_id": "464236828290-ckpl10p12egtv7ms5r856tahp6ob63gv.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC0x1G-GTvu7aU6JwbDWevVcHduK2Fvv-Y"
-        }
-      ],
-      "services": {
-        "analytics_service": {
           "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "464236828290-ckpl10p12egtv7ms5r856tahp6ob63gv.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }
