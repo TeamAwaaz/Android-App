@@ -252,6 +252,7 @@ public class RecordingsFragment extends Fragment {
         Intent intent = new Intent(getActivity(), StaticActivity.class);
         intent.putExtra(AUDIO_FILE, filePath);
         startActivity(intent);
+        getActivity().finish();
     }
 
     private void displayAudios() {
@@ -345,12 +346,9 @@ public class RecordingsFragment extends Fragment {
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setDataSource(filePath);
             mediaPlayer.prepare();
-//                mediaPlayer.start();
         } catch (IOException e) {
-//                Log.d("ErrorAudio",e+"");
             e.printStackTrace();
         } catch (Exception e){
-//                Log.d("TAG123","Error: "+e);
             e.printStackTrace();
         }
     }
@@ -380,6 +378,13 @@ public class RecordingsFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onPause() {
+        if(mediaPlayer!=null&&mediaPlayer.isPlaying()){
+            mediaPlayer.stop();
+        }
+        super.onPause();
+    }
 }
 
 

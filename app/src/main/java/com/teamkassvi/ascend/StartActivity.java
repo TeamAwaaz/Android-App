@@ -20,14 +20,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.google.firebase.auth.FirebaseAuth;
+//import com.google.firebase.auth.FirebaseAuth;
 
 public class StartActivity extends AppCompatActivity{
 
     public static final String AUDIO_FILE = "audio_file";
     private Button logOut;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+//    private FirebaseAuth mAuth;
+//    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,25 +64,25 @@ public class StartActivity extends AppCompatActivity{
         relativeLayout.getBackground().setAlpha(40);
 
         //-------------------------login -------------------------------
-        logOut=(Button) findViewById(R.id.btn_logout);
+//        logOut=(Button) findViewById(R.id.btn_logout);
 
-        logOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-            }
-        });
+//        logOut.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mAuth.signOut();
+//            }
+//        });
 
 
-        mAuth=FirebaseAuth.getInstance( );
-        mAuthListener=new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(firebaseAuth.getCurrentUser()==null){
-                    startActivity(new Intent(StartActivity.this,LoginActivity.class));
-                }
-            }
-        };
+//        mAuth=FirebaseAuth.getInstance( );
+//        mAuthListener=new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                if(firebaseAuth.getCurrentUser()==null){
+//                    startActivity(new Intent(StartActivity.this,LoginActivity.class));
+//                }
+//            }
+//        };
 
 
     }
@@ -90,7 +90,7 @@ public class StartActivity extends AppCompatActivity{
     @Override
     protected void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+//        mAuth.addAuthStateListener(mAuthListener);
     }
 
     public void onClick(View v){

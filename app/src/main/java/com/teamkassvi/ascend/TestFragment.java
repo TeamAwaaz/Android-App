@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.google.firebase.auth.FirebaseAuth;
+//import com.google.firebase.auth.FirebaseAuth;
 
 
 public class TestFragment extends Fragment {
@@ -21,8 +21,8 @@ public class TestFragment extends Fragment {
     private Button logOut;
     ImageButton btn_static, btn_realtime;
     View rootView;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+//    private FirebaseAuth mAuth;
+//    private FirebaseAuth.AuthStateListener mAuthListener;
     public static TestFragment newInstance(int instance) {
         Bundle args = new Bundle();
         args.putInt("argsInstance", instance);

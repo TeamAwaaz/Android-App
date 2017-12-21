@@ -2,15 +2,15 @@ apply plugin: 'com.android.application'
 
 android {
     useLibrary 'org.apache.http.legacy'
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
     defaultConfig {
         multiDexEnabled true
         applicationId "com.teamkassvi.ascend"
         minSdkVersion 21
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 26
+        versionCode 3
+        versionName "2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -28,7 +28,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.8.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'de.hdodenhof:circleimageview:2.2.0'
-    compile 'com.google.android.gms:play-services-auth:9.8.0'
+    compile 'com.google.android.gms:play-services-auth:11.0.4'
     compile 'net.the4thdimension:audio-wife:1.0.3'
     compile 'com.ibm.watson.developer_cloud:speech-to-text:4.0.0'
     compile 'com.ibm.watson.developer_cloud:java-sdk:3.9.1'
@@ -47,8 +47,10 @@ dependencies {
     compile('com.mikepenz:materialdrawer:5.3.1@aar') {
         transitive = true
     }
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:appcompat-v7:26.0.1'
+    compile 'com.android.support:design:26.0.1'
+//    compile 'com.google.gms.google-services:10.0.1'
+    compile 'com.github.karanchuri:PermissionManager:0.1.0'
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'

@@ -61,6 +61,10 @@ import omrecorder.PullableSource;
 import omrecorder.Recorder;
 import omrecorder.WriteAction;
 
+import static com.teamkassvi.ascend.GetStartedActivity.ENTRY_FRAGMENT;
+import static com.teamkassvi.ascend.GetStartedActivity.FRAG_RECORDINGS;
+import static com.teamkassvi.ascend.SettingsActivity.AROUSAL_OFFSET;
+import static com.teamkassvi.ascend.SettingsActivity.VALENCE_OFFSET;
 import static java.lang.Thread.sleep;
 
 public class StaticActivity extends AppCompatActivity {
@@ -111,6 +115,29 @@ public class StaticActivity extends AppCompatActivity {
     SharedPreferences preferences;
     public static final String CREATED_TIME = "created_time";
     String analyzeIntent;
+
+    public static final String AROUSAL_HIGH = "high";
+    public static final String AROUSAL_LOW = "low";
+    public static final String AROUSAL_NEG_LOW = "neg_low";
+    public static final String AROUSAL_NEG_HIGH = "neg_high";
+    public static final String VALENCE_HIGH = "high";
+    public static final String VALENCE_NEG = "neg";
+    public static final String EM_EXCITED = "Excited";
+    public static final String EM_HAPPY = "Happy";
+    public static final String EM_ANGRY = "Angry";
+    public static final String EM_NERVOUS = "Nervous";
+    public static final String EM_DISAPPOINTED = "Disappointed";
+    public static final String EM_SAD = "Sad";
+    public static final String EM_PEACE = "Peace";
+
+    public static final String RE_EXCITED = "Maintain";
+    public static final String RE_HAPPY = "Maintain(Stay Happy)";
+    public static final String RE_ANGRY = "Suppress";
+    public static final String RE_NERVOUS = "Keep Calm";
+    public static final String RE_DISAPPOINTED = "Withdraw";
+    public static final String RE_SAD = "Seek Comfort";
+    public static final String RE_PEACE = "Maintain(Stay Calm)";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +198,8 @@ public class StaticActivity extends AppCompatActivity {
         if(recording==1) {
             btnStop.performClick();
         }
+
+        this.finish();
         super.onBackPressed();
     }
 
@@ -389,13 +418,19 @@ public class StaticActivity extends AppCompatActivity {
 
     private void playLastAudio(){
 
-        Intent intent = new Intent(this,ListenAudios.class);
-        String createdTime = preferences.getString(CREATED_TIME,"invalid");
-        Log.d("LastAudioHear", recentFile());
+//        Intent intent = new Intent(this,ListenAudios.class);
+//        String createdTime = preferences.getString(CREATED_TIME,"invalid");
+//        Log.d("LastAudioHear", recentFile());
+//
+//        intent.putExtra(CREATED_TIME,recentFile());
+//        startActivity(intent);
 
-        intent.putExtra(CREATED_TIME,recentFile());
+        Intent intent = new Intent(StaticActivity.this, ViewpagerActivity.class);
+        intent.putExtra(ENTRY_FRAGMENT, FRAG_RECORDINGS);
         startActivity(intent);
     }
+
+
 
     public void onClick(View v) {
 
@@ -426,7 +461,8 @@ public class StaticActivity extends AppCompatActivity {
                                     Toast.makeText(StaticActivity.this, "Audio Saved. Ready to Analyze", Toast.LENGTH_SHORT).show();
                                 }
                                 else{
-                                    Toast.makeText(StaticActivity.this, "Audio file should be of more than 10 seconds. File deleted.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(StaticActivity.this, "Audio file should be of more than 10 seconds. File deleted.",
+                                            Toast.LENGTH_SHORT).show();
                                     File file = new File(currentPath);
                                     file.delete();
                                 }
@@ -533,7 +569,7 @@ public class StaticActivity extends AppCompatActivity {
         }
     }
 
-    public void updateViews(){
+    public void updateViews(final String emotionText){
 
         ivEmotion.animate().alpha(0).setDuration(500);
         ivReaction.animate().alpha(0).setDuration(500);
@@ -542,11 +578,107 @@ public class StaticActivity extends AppCompatActivity {
         tvReaction.animate().alpha(0).setDuration(500);
 //        btnSpeak.animate().alpha(0).setDuration(500);
 //        emotionText = fetchEmotionText(spokenText);
-        reactionText = fetchReactionText();
+        Log.d("TAGStaticUpdate: ", emotionText + "");
+        fetchReactionText(emotionText);
+    }
+
+    private String fetchReactionText(final String emotionText) {
+
+        //Create mapping using emotionText.
+//        emotionText = "abc";
+        String reactionText = "";
+        if(emotionText.equals(EM_EXCITED)){
+            reactionText = RE_EXCITED;
+        }
+        else if(emotionText.equals(EM_HAPPY)){
+            reactionText = RE_HAPPY;
+        }
+        else if(emotionText.equals(EM_ANGRY)){
+            reactionText = RE_ANGRY;
+        }
+        else if(emotionText.equals(EM_NERVOUS)){
+            reactionText = RE_NERVOUS;
+        }
+        else if(emotionText.equals(EM_DISAPPOINTED)){
+            reactionText = RE_DISAPPOINTED;
+        }
+        else if(emotionText.equals(EM_SAD)){
+            reactionText = RE_SAD;
+        }
+        else if(emotionText.equals(EM_PEACE)){
+            reactionText = RE_PEACE;
+        }
         final int emotionId = fetchEmotionImage(emotionText);
-        final int reactionId = fetchReactionImage(reactionText);
+        final int reactionId = fetchReactionImage(reactionText, emotionText, emotionId);
+
+        return reactionText;
+    }
+
+    private int fetchEmotionImage(String text) {
+
+        //Create Mapping
+        int emotionId = 0;
+        if(text.equals(EM_EXCITED)){
+            emotionId = R.drawable.img_em_excited;
+        }
+        else if(text.equals(EM_HAPPY)){
+            emotionId = R.drawable.img_em_happy;
+        }
+        else if(text.equals(EM_ANGRY)){
+            emotionId = R.drawable.img_em_angry;
+        }
+        else if(text.equals(EM_NERVOUS)){
+            emotionId = R.drawable.img_em_nervous;
+        }
+        else if(text.equals(EM_DISAPPOINTED)){
+            emotionId = R.drawable.img_em_disappointed;
+        }
+        else if(text.equals(EM_SAD)){
+            emotionId = R.drawable.img_em_sad;
+        }
+        else if(text.equals(EM_PEACE)){
+            emotionId = R.drawable.img_em_peace;
+        }
+
+        return emotionId;
+    }
+
+    private int fetchReactionImage(String reactionText, final String emotionText, final int emotionId) {
+
+        //Create Mapping
+        int reactionId;
+
+        switch (emotionText) {
+            case EM_EXCITED:
+                reactionId = R.drawable.img_re_excited;
+                break;
+            case EM_HAPPY:
+                reactionId = R.drawable.img_re_happy;
+                break;
+            case EM_ANGRY:
+                reactionId = R.drawable.img_re_angry;
+                break;
+            case EM_NERVOUS:
+                reactionId = R.drawable.img_re_nervous;
+                break;
+            case EM_DISAPPOINTED:
+                reactionId = R.drawable.img_re_disappointment;
+                break;
+            case EM_SAD:
+                reactionId = R.drawable.img_re_sadness;
+                break;
+            case EM_PEACE:
+                reactionId = R.drawable.img_re_peace;
+                break;
+            default:
+                reactionId = 0;
+                break;
+        }
 
         Handler handler = new Handler();
+        final String finalReactionText = reactionText;
+        final int finalReactionId = reactionId;
+        Log.d("TAGReactionId: ", reactionId+"");
         handler.postDelayed(new Runnable() {
             public void run() {
 
@@ -555,9 +687,9 @@ public class StaticActivity extends AppCompatActivity {
                 try {
 //                    tvText.setText(spokenText);
                     tvEmotion.setText(emotionText);
-                    tvReaction.setText(reactionText);
+                    tvReaction.setText(finalReactionText);
                     ivEmotion.setImageResource(emotionId);
-                    ivReaction.setImageResource(reactionId);
+                    ivReaction.setImageResource(finalReactionId);
                 }
                 catch (Exception e){
                     tvText.setText("---Some error occurred. Please try again.---");
@@ -578,29 +710,7 @@ public class StaticActivity extends AppCompatActivity {
 //                btnSpeakAgain.animate().alpha(1).setDuration(500);
             }
         }, 500);
-    }
 
-    private String fetchReactionText() {
-
-        //Create mapping using emotionText.
-        String reactionText;
-        reactionText = "Peaceful";
-        return reactionText;
-    }
-
-    private int fetchEmotionImage(String text) {
-
-        //Create Mapping
-        int emotionId;
-        emotionId = R.drawable.case1emotion;
-        return emotionId;
-    }
-
-    private int fetchReactionImage(String text) {
-
-        //Create Mapping
-        int reactionId;
-        reactionId = R.drawable.case1reaction;
         return reactionId;
     }
 
@@ -674,9 +784,10 @@ public class StaticActivity extends AppCompatActivity {
     private void updateAnalysisUI(String content) {
 
 //        generateSpokenText();
-        emotionText = getEmotionText(content);
-        animateButtons();
-        updateViews();
+        final String emotionText = getEmotionText(content);
+//        Log.d("TAGStatic: ", emotionText+"");
+//        updateViews(emotionText);
+//        animateButtons();
     }
 
     private String getEmotionText(String content) {
@@ -687,10 +798,34 @@ public class StaticActivity extends AppCompatActivity {
             JSONObject result = fullJson.getJSONObject("result");
             JSONArray segments = result.getJSONArray("analysisSegments");
             JSONObject analysis = ((JSONObject)segments.get(0)).getJSONObject("analysis");
-            JSONObject Mood = analysis.getJSONObject("Mood");
-            JSONObject Group11 = Mood.getJSONObject("Group11");
-            JSONObject Primary = Group11.getJSONObject("Primary");
-            emotionText = Primary.getString("Phrase");
+
+            JSONObject Temper = analysis.getJSONObject("Temper");
+            String temperValue = Temper.getString("Value");
+
+            JSONObject Valence = analysis.getJSONObject("Valence");
+            int valenceValue = Valence.getInt("Value");
+            int valenceOffset = preferences.getInt(VALENCE_OFFSET,0);
+
+//            Log.d("TAGValence: ",valenceOffset+"");
+            int finalValence = valenceValue + valenceOffset;
+
+
+            JSONObject Arousal = analysis.getJSONObject("Temper");
+            int arousalValue = Arousal.getInt("Value");
+            int arousalOffset = preferences.getInt(AROUSAL_OFFSET,0);
+
+            int finalArousal = arousalValue + arousalOffset;
+
+//            emotionText = "Valence: " + valenceValue + " Arousal: " + arousalValue + "Final Valence: "+ finalValence +
+//                            "Final Arousal: "+finalArousal;
+            Toast.makeText(this, "Valence: " + finalValence + " Arousal: "+finalArousal, Toast.LENGTH_SHORT).show();
+//            tvReaction.setText("Valence: " + finalValence + " Arousal: "+finalArousal);
+
+            emotionText = getEmotionText(finalValence, finalArousal);
+//            JSONObject Mood = analysis.getJSONObject("Mood");
+//            JSONObject Group11 = Mood.getJSONObject("Group11");
+//            JSONObject Primary = Group11.getJSONObject("Primary");
+//            emotionText = Primary.getString("Phrase");
 
             Log.d("TAG123",emotionText);
         } catch (JSONException e) {
@@ -699,6 +834,88 @@ public class StaticActivity extends AppCompatActivity {
         }
 
         return emotionText;
+    }
+
+    private String getEmotionText(int valence, int arousal) {
+        String arousalLevel = "";
+        String valenceLevel = "";
+
+        if(arousal>=10){
+            arousalLevel = AROUSAL_HIGH;
+        }
+        else{
+            arousalLevel = AROUSAL_LOW;
+        }
+//        if(arousal>=50){
+//            arousalLevel = AROUSAL_HIGH;
+//        }
+//        else if(arousal>=10){
+//            arousalLevel = AROUSAL_LOW;
+//        }
+//        else if(arousal>=-20){
+//            arousalLevel = AROUSAL_NEG_LOW;
+//        }
+//        else{
+//            arousalLevel = AROUSAL_NEG_HIGH;
+//        }
+//
+        if(valence>=0){
+            valenceLevel = VALENCE_HIGH;
+        }
+        else{
+            valenceLevel = VALENCE_NEG;
+        }
+
+        return getEmotionText(valenceLevel,arousalLevel);
+
+    }
+
+    private String getEmotionText(String valenceLevel, String arousalLevel) {
+
+        String emotion = "";
+
+        if(arousalLevel.equals(AROUSAL_LOW)){
+            emotion = EM_PEACE;
+        }
+        else if(valenceLevel.equals(VALENCE_HIGH)){
+            emotion = EM_HAPPY;
+        }
+        else if(valenceLevel.equals(VALENCE_NEG)){
+            emotion = EM_ANGRY;
+        }
+//        //1
+//        if(valenceLevel.equals(VALENCE_HIGH)&&arousalLevel.equals(AROUSAL_HIGH)){
+//            emotion = EM_EXCITED;
+//        }
+//        else if(valenceLevel.equals(VALENCE_HIGH)&&arousalLevel.equals(AROUSAL_LOW)){
+//            emotion = EM_HAPPY;
+//        }
+//
+//        //2
+//        else if(valenceLevel.equals(VALENCE_NEG)&&arousalLevel.equals(AROUSAL_HIGH)){
+//            emotion = EM_ANGRY;
+//        }
+//        else if(valenceLevel.equals(VALENCE_NEG)&&arousalLevel.equals(AROUSAL_LOW)){
+//            emotion = EM_NERVOUS;
+//        }
+//
+//        //3
+//        else if(valenceLevel.equals(VALENCE_NEG)&&arousalLevel.equals(AROUSAL_NEG_LOW)){
+//            emotion = EM_DISAPPOINTED;
+//        }
+//        else if(valenceLevel.equals(VALENCE_NEG)&&arousalLevel.equals(AROUSAL_NEG_HIGH)){
+//            emotion = EM_SAD;
+//        }
+//
+//        //4
+//        else if(valenceLevel.equals(VALENCE_HIGH)&&arousalLevel.equals(AROUSAL_HIGH)){
+//            emotion = EM_PEACE;
+//        }
+
+        Log.d("TAGStatic: ", emotion+"");
+        updateViews(emotion);
+        animateButtons();
+        return emotion;
     }
 
     private void generateSpokenText() {

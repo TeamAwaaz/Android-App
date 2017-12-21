@@ -19,42 +19,44 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name="com.teamkassvi.ascend.StaticActivity"
+            android:name=".StaticActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.teamkassvi.ascend.DetailedReaction"
-            android:parentActivityName="com.teamkassvi.ascend.StaticActivity"
+            android:name=".DetailedReaction"
+            android:parentActivityName=".StaticActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.teamkassvi.ascend.StaticActivity" />
         </activity>
         <activity
-            android:name="com.teamkassvi.ascend.WeeklyReports"
+            android:name=".WeeklyReports"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.teamkassvi.ascend.PlayLastAudio"
+            android:name=".PlayLastAudio"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.teamkassvi.ascend.StartActivity"
+            android:name=".StartActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.teamkassvi.ascend.LoginActivity"
+            android:name=".LoginActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.teamkassvi.ascend.ListenAudios" />
-        <activity android:name="com.teamkassvi.ascend.RealtimeActivity" />
-        <activity android:name="com.teamkassvi.ascend.SignUpActivity" />
-        <activity android:name="com.teamkassvi.ascend.CalendarActivity" />
-        <activity android:name="com.teamkassvi.ascend.GetStartedActivity" />
-        <activity android:name="com.teamkassvi.ascend.ViewpagerActivity"></activity>
-
-        <activity android:name="com.teamkassvi.ascend.SplashActivity">
+        <activity android:name=".ListenAudios" />
+        <activity android:name=".RealtimeActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".CalendarActivity" />
+        <activity android:name=".GetStartedActivity" />
+        <activity android:name=".ViewpagerActivity" />
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AboutUsActivity" />
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>

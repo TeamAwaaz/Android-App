@@ -31,6 +31,7 @@ public class ViewpagerActivity extends AppCompatActivity {
     //This is our viewPager
     private ViewPager viewPager;
     boolean reloadAllowed = false;
+    boolean network;
 
 
     //Fragments
@@ -140,7 +141,7 @@ public class ViewpagerActivity extends AppCompatActivity {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        boolean network = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        network = activeNetworkInfo != null && activeNetworkInfo.isConnected();
         if(!network){
             Toast.makeText(ViewpagerActivity.this, "Error loading, check your internet connection.", Toast.LENGTH_SHORT).show();
             reloadAllowed = true;
@@ -148,12 +149,14 @@ public class ViewpagerActivity extends AppCompatActivity {
     }
 
     private void reloadFragment() {
-        Toast.makeText(getApplicationContext(), "Loading...", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "Loading...", Toast.LENGTH_SHORT).show();
         final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.detach(dashboardFragment);
         ft.attach(dashboardFragment);
         ft.commit();
-        reloadAllowed = false;
+        if(network) {
+            reloadAllowed = false;
+        }
     }
 
     private void setupViewPager(ViewPager viewPager) {

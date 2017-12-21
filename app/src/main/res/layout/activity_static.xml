@@ -80,7 +80,7 @@
         android:visibility="gone" />
 
     <TextView
-        android:text="Emotion Text"
+        android:text="Emotion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_emotion"
@@ -89,7 +89,7 @@
         android:alpha="0"
         android:layout_below="@+id/iv_emotion"
         android:layout_marginTop="30dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/tv_reaction"
         android:layout_alignParentStart="true"
@@ -123,7 +123,8 @@
         android:text="@string/details_link"
         android:textSize="16sp"
         android:alpha="0"
-        android:onClick="onClickDetailsLink" />
+        android:onClick="onClickDetailsLink"
+        android:visibility="gone" />
 
     <Button
         android:text="Analyze"
@@ -180,7 +181,8 @@
         android:layout_below="@+id/tv_details"
         android:fillViewport="false"
         android:layout_margin="10dp"
-        android:layout_height="70dp">
+        android:layout_height="70dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_text"

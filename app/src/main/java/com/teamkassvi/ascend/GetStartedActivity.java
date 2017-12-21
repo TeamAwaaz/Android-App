@@ -137,7 +137,7 @@ public class GetStartedActivity extends AppCompatActivity implements NavigationV
                 },500);
                 outer.postDelayed(this, 2500);
             }
-        },2500);
+        },2000);
 
 
 
@@ -270,13 +270,13 @@ public class GetStartedActivity extends AppCompatActivity implements NavigationV
         } else if (id == R.id.nav_account) {
             Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_settings) {
-            Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(GetStartedActivity.this,SettingsActivity.class));
         } else if (id == R.id.nav_aboutus) {
-            Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(GetStartedActivity.this,AboutUsActivity.class));
         } else if (id == R.id.nav_share) {
-
+            shareApp();
         } else if (id == R.id.nav_send) {
-
+            sendApp();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -284,6 +284,31 @@ public class GetStartedActivity extends AppCompatActivity implements NavigationV
         return true;
     }
 
+    protected  void shareApp(){
+        try {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(Intent.EXTRA_SUBJECT, "My application name");
+            String sAux = "\nLet me recommend you this application\n\n";
+            sAux = sAux + "https://play.google.com/store/apps/details?id=Orion.Soft \n\n";
+            i.putExtra(Intent.EXTRA_TEXT, sAux);
+            startActivity(Intent.createChooser(i, "choose one"));
+        } catch(Exception e) {
+            //e.toString();
+        }
+    }
 
+    protected void sendApp(){
+        try {
+            Intent viewIntent =
+                    new Intent("android.intent.action.VIEW",
+                            Uri.parse("https://play.google.com/store/apps/details?id=com.mindsortlabs.biddingtictactoe&hl=en"));
+            startActivity(viewIntent);
+        }catch(Exception e) {
+            Toast.makeText(getApplicationContext(),"Unable to Connect Try Again...",
+                    Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
 
 }

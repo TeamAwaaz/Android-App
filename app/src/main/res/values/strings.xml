@@ -34,4 +34,25 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--<string name="default_web_client_id">464236828290-7o7njndn85gt67gmokmj01pqaebv0l1s.apps.googleusercontent.com</string>-->
+
+    <string name="about_us_content">We are a <b>Delhi Technological University</b> based team of ambitious students with a keen drive to
+        innovate and help the community.\n\n
+        We are in collaboration with <b>Tamana - School of hope.</b>, one of the most premier NGOs of India who have been working for the cause of Autism
+        since 3 decades. Their excellent mentorship and constant support always drived and motivated us in achieving the ultimate goal of not just
+        doing a project but also being an aid to the society. Our divine presence <b>Padma Bhushan Dr.Shayama Chauna</b> and our guiding light
+        <b>Dr. Krishnaveni Achary</b> helped us achieve some great results.\n\n
+
+        Although we\'ve always been aware of Autism,  the knowledge of Alexithymia - a specific personality construct of the Autism Spectrum Disorder,
+        came to us just a few years ago. Fascinated by the idea of recognizing emotions through speech we wondered if we could use this
+        technology to help people communicate.\n\n
+        And that is where it all began. \n\n
+        We decided to use a new approach, a new method. The method of technology. With ASCEND we can not only help alexithymic people communicate
+        better, we can also help them understand emotions and help them in reacting to situations they earlier found difficult to express
+        themselves in.\n\n
+        <b>Kartik Bhutani</b>\nJava Slayer, Number Player and a Seasoned Voyager in the sea of difficulties.\n\n
+        <b>Suvigya Nijhawan</b>\nCodeigniter, Visual Interpreter and a Staunch Crusader in the battle of peculiarities.\n\n
+        <b>Sonam Tshering</b>\nPython Enthusiast, Team Worker and Conflict Resolver in the inevitable path to success.\n\n
+        <b>Viha Gupta</b>\nGraphics Artist, UI-Designer and Resolute Motivator in the spiraling vortex of obstacles.\n\n
+
+    </string>
 </resources>

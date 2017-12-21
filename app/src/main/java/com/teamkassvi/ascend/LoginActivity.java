@@ -22,8 +22,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
+import com.karan.churi.PermissionManager.PermissionManager;
+//import com.google.firebase.FirebaseApp;
+//import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
 
 import studios.codelight.smartloginlibrary.SmartLogin;
 import studios.codelight.smartloginlibrary.SmartLoginConfig;
@@ -55,10 +58,16 @@ public class LoginActivity extends AppCompatActivity{
     public static final String EMAIL_ID = "email_id";
     public static final String USER_IMAGE = "user_image";
 
+    PermissionManager permissionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        permissionManager = new PermissionManager() {
+        };
+        permissionManager.checkAndRequestPermissions(this);
 
         //bindViews();
 //        setListeners();
@@ -71,31 +80,11 @@ public class LoginActivity extends AppCompatActivity{
         editTextUserName = (EditText) findViewById(R.id.email_edittext);
         editTextPassword = (EditText) findViewById(R.id.password_edittext);
 
-
-        //--naman---
-//        FirebaseApp.initializeApp(this);
-//        mAuth=FirebaseAuth.getInstance();
-//
-//
-//        mAuthListener=new FirebaseAuth.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//
-//                if(firebaseAuth.getCurrentUser()!=null){
-//                    startActivity(new Intent(LoginActivity.this,GetStartedActivity.class));
-//
-//                }
-//
-//
-//            }
-//        };
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-//
-//
+
         mGoogleApiClient=new GoogleApiClient.Builder(getApplicationContext())
                 .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
@@ -182,6 +171,14 @@ public class LoginActivity extends AppCompatActivity{
             }
         });
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        permissionManager.checkResult(requestCode,permissions,grantResults);
+        ArrayList<String> granted=permissionManager.getStatus().get(0).granted;
+        ArrayList<String> denied=permissionManager.getStatus().get(0).denied;
+    }
+
 
     @Override
     protected void onDestroy() {

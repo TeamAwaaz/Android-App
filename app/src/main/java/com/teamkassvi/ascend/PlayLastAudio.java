@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.andremion.music.MusicCoverView;
@@ -18,7 +19,7 @@ public class PlayLastAudio extends AppCompatActivity {
 //    AudioWife audioWife;
     private MusicCoverView mCoverView;
     private MediaPlayer mediaPlayer = null;
-    Button btnPlay;
+    ImageButton btnPlay;
     int flag = 0;
     float currProgress = 0;
     double audioDuration = 0;
@@ -37,7 +38,7 @@ public class PlayLastAudio extends AppCompatActivity {
         RelativeLayout mPlayerContainer = (RelativeLayout) findViewById(R.id.activity_play_last_audio);
 
         mCoverView = (MusicCoverView) findViewById(R.id.cover);
-        btnPlay = (Button) findViewById(R.id.btn_play);
+        btnPlay = (ImageButton) findViewById(R.id.btn_play);
 
         Intent intent = getIntent();
         filePath = intent.getStringExtra(StaticActivity.CREATED_TIME);
@@ -112,19 +113,19 @@ public class PlayLastAudio extends AppCompatActivity {
 //    }
 
     private void initializeButton() {
-        btnPlay.setText("Play");
+//        btnPlay.setText("Play");
     }
 
     private void updateButton() {
-        if(btnPlay.getText().equals("Play")){
+//        if(btnPlay.getText().equals("Play")){
 //            startProgressBar();
-            btnPlay.setText("Pause");
+//            btnPlay.setText("Pause");
         }
-        else{
+//        else{
 //            stopProgressBar();
-            btnPlay.setText("Play");
-        }
-    }
+//            btnPlay.setText("Play");
+//        }
+//    }
 
 //    private void startProgressBar() {
 //        currProgress = circularProgressBar.getProgress();
