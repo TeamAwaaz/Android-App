@@ -41,4 +41,12 @@
         android:id="@+id/btn_get_started"
         />
 
+    <Button
+        android:id="@+id/btn_game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_get_started"
+        android:layout_centerHorizontal="true"
+        android:text="Game" />
+
 </RelativeLayout>

@@ -55,4 +55,8 @@
         <b>Viha Gupta</b>\nGraphics Artist, UI-Designer and Resolute Motivator in the spiraling vortex of obstacles.\n\n
 
     </string>
+
+    <string name="subscription_key">c467e48cfe3e418da2643039f68c4dcd</string>
+    <string name="endpoint">https://westcentralus.api.cognitive.microsoft.com/face/v1.0</string>
+    <string name="progress_dialog_title">Please wait</string>
 </resources>

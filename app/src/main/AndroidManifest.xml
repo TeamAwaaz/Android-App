@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--<uses-permission android:name="android.permission.CAMERA"/>-->
+    <!--<uses-feature android:name="android.hardware.camera" android:required="false" />-->
+    <!--<uses-feature android:name="android.hardware.camera.front" android:required="false" />-->
 
     <application
         android:allowBackup="true"
@@ -56,7 +59,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".AboutUsActivity" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".GameActivity"></activity>
     </application>
 
 </manifest>

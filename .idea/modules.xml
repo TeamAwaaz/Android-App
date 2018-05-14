@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Android-App.iml" filepath="$PROJECT_DIR$/Android-App.iml" />
+      <module fileurl="file://E:\Data\Kartik\Study\Android\Awaaz\Android-App.iml" filepath="E:\Data\Kartik\Study\Android\Awaaz\Android-App.iml" />
       <module fileurl="file://$PROJECT_DIR$/Awaaz.iml" filepath="$PROJECT_DIR$/Awaaz.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

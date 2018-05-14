@@ -35,7 +35,7 @@ import static com.teamkassvi.ascend.LoginActivity.USERNAME;
 import static com.teamkassvi.ascend.LoginActivity.USER_IMAGE;
 
 public class GetStartedActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    Button btnGetStarted;
+    Button btnGetStarted, btnGame;
     TextView tvUsername, tvEmailId, tvWelcome;
     ImageView ivUserImage, ivShowcase;
     int pos = 0;
@@ -81,6 +81,7 @@ public class GetStartedActivity extends AppCompatActivity implements NavigationV
         tvWelcome = (TextView) findViewById(R.id.tv_welcome);
 
         btnGetStarted =(Button) findViewById(R.id.btn_get_started);
+        btnGame = findViewById(R.id.btn_game);
 
         btnGetStarted.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +90,14 @@ public class GetStartedActivity extends AppCompatActivity implements NavigationV
                 intent.putExtra(ENTRY_FRAGMENT, FRAG_TEST);
                 startActivity(intent);
 
+            }
+        });
+
+        btnGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GetStartedActivity.this, GameActivity.class);
+                startActivity(intent);
             }
         });
 
